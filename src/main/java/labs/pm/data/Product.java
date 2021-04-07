@@ -11,33 +11,44 @@ public class Product {
     private BigDecimal price;
     private Rating rating;
 
+    public Product(){
+        this(0,"no name", BigDecimal.valueOf(0));
+    }
+
+    public Product(int id, String name, BigDecimal price, Rating rating){
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.rating = rating;
+    }
+
+    public Product(int id, String name, BigDecimal price){
+        this(id, name, price, Rating.NOT_RATED);
+    }
+
     public Rating getRating(){
         return rating;
     }
+    /**Creating new Product so it's immutable but with new rating**/
+    public Product applyRating(Rating newRating){
+        return new Product(id, name, price, newRating);
+    }
+
 
     public int getId() {
         return id;
     }
 
-    public void setId(final int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(final String name) {
-        this.name = name;
-    }
 
     public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(final BigDecimal price) {
-        this.price = price;
-    }
     /** Calculate discount  based on a product price and discount rate, returns value of discount **/
 
     public BigDecimal getDiscount(){
