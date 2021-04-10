@@ -13,7 +13,12 @@ public class Shop {
         ProductManager pm = new ProductManager(Locale.UK);
 
         Product p1 = pm.createProduct(101, "Tea",BigDecimal.valueOf(1.99), Rating.NOT_RATED);
-        pm.reviewProduct(p1, Rating.FOUR_STAR, "Nice hot cup of tea");
+        pm.reviewProduct(p1, Rating.FOUR_STAR, "nice hot cup of tea");
+        pm.reviewProduct(p1, Rating.TWO_STAR, "rather weak tea");
+        pm.reviewProduct(p1, Rating.FOUR_STAR, "fine tea");
+        pm.reviewProduct(p1, Rating.FOUR_STAR, "good tea");
+        pm.reviewProduct(p1, Rating.FIVE_STAR, "perfect tea");
+        pm.reviewProduct(p1, Rating.THREE_STAR, "add some lemon");
         pm.printProductReport();
 
         //Product p2 = pm.createProduct(12, "Coffee", BigDecimal.valueOf(1.99), Rating.FOUR_STAR);
