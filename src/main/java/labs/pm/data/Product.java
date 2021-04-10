@@ -6,7 +6,8 @@ import java.util.Objects;
 
 import static java.math.RoundingMode.HALF_UP;
 
-public abstract class Product {
+//abstract method inherited from rateable interface, class acts a conduit for implementation to child classes
+public abstract class Product implements Rateable<Product> {
     /** Discount Rate  is 10% **/
     public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.1);
     private int id;
@@ -28,15 +29,10 @@ public abstract class Product {
      Product(int id, String name, BigDecimal price){
         this(id, name, price, Rating.NOT_RATED);
     }
-
+    @Override
     public Rating getRating(){
         return rating;
     }
-    /**Creating new Product so it's immutable but with new rating**/
-    public abstract Product applyRating(Rating newRating);
-    //{
-   //     return new Product(id, name, price, newRating);
-   // }
 
 
     public int getId() {
