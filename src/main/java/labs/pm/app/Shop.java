@@ -4,13 +4,14 @@ import labs.pm.data.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Locale;
 
 // Class represents an application that manages Products
 public class Shop {
 
     public static void main(String[] args){
-        ProductManager pm = new ProductManager(Locale.UK);
+        ProductManager pm = new ProductManager("en-GB");
 
         pm.createProduct(101, "Tea",BigDecimal.valueOf(1.99), Rating.NOT_RATED);
 
@@ -22,7 +23,7 @@ public class Shop {
         pm.reviewProduct(101, Rating.FIVE_STAR, "perfect tea");
         pm.reviewProduct(101, Rating.THREE_STAR, "add some lemon");
         pm.printProductReport(101);
-
+        pm.changeLocale("en-US");
         pm.createProduct(102, "Coffee", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
         pm.reviewProduct(102, Rating.THREE_STAR, "average");
         pm.reviewProduct(102, Rating.TWO_STAR, "rather weak coffee");
@@ -41,6 +42,16 @@ public class Shop {
         pm.reviewProduct(103, Rating.FIVE_STAR, "exquisite");
         pm.reviewProduct(103, Rating.ONE_STAR, "what is this, cardboard?");
         pm.printProductReport(103);
+
+        Comparator<Product> ratingSorter = (p1,p2) -> p2.getRating().ordinal() - p1.getRating().ordinal();
+        Comparator<Product> sortByID = (p1,p2) -> p2.getId() - p1.getId();
+        Comparator<Product> priceSorter = (p1,p2) -> p2.getPrice().compareTo(p1.getPrice());
+
+        pm.printProducts(sortByID);
+        pm.printProducts(ratingSorter.thenComparing(priceSorter).reversed());
+        pm.printProducts(priceSorter);
+
+
 
         //Product p4 = pm.createProduct(105, "Cookie", BigDecimal.valueOf(3.99), Rating.TWO_STAR, LocalDate.now());
         //Product p5 = p3.applyRating(Rating.THREE_STAR);
