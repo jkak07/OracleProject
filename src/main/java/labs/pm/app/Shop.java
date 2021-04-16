@@ -12,35 +12,35 @@ public class Shop {
     public static void main(String[] args){
         ProductManager pm = new ProductManager(Locale.UK);
 
-        Product p1 = pm.createProduct(101, "Tea",BigDecimal.valueOf(1.99), Rating.NOT_RATED);
+        pm.createProduct(101, "Tea",BigDecimal.valueOf(1.99), Rating.NOT_RATED);
 
-        p1 = pm.reviewProduct(p1, Rating.FOUR_STAR, "nice hot cup of tea");
+        pm.reviewProduct(101, Rating.FOUR_STAR, "nice hot cup of tea");
 
-        p1 = pm.reviewProduct(p1, Rating.TWO_STAR, "rather weak tea");
-        p1 = pm.reviewProduct(p1, Rating.FOUR_STAR, "fine tea");
-        p1 = pm.reviewProduct(p1, Rating.FOUR_STAR, "good tea");
-        p1 = pm.reviewProduct(p1, Rating.FIVE_STAR, "perfect tea");
-        p1 = pm.reviewProduct(p1, Rating.THREE_STAR, "add some lemon");
-        pm.printProductReport(p1);
+        pm.reviewProduct(101, Rating.TWO_STAR, "rather weak tea");
+        pm.reviewProduct(101, Rating.FOUR_STAR, "fine tea");
+        pm.reviewProduct(101, Rating.FOUR_STAR, "good tea");
+        pm.reviewProduct(101, Rating.FIVE_STAR, "perfect tea");
+        pm.reviewProduct(101, Rating.THREE_STAR, "add some lemon");
+        pm.printProductReport(101);
 
-        Product p2 = pm.createProduct(102, "Coffee", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
-        p2 = pm.reviewProduct(p2, Rating.THREE_STAR, "average");
-        p2 = pm.reviewProduct(p2, Rating.TWO_STAR, "rather weak coffee");
-        p2 = pm.reviewProduct(p2, Rating.ONE_STAR, "abysmal");
-        p2 = pm.reviewProduct(p2, Rating.FOUR_STAR, "good coffee");
-        p2 = pm.reviewProduct(p2, Rating.FIVE_STAR, "perfect coffee");
-        p2 = pm.reviewProduct(p2, Rating.ONE_STAR, "what is this, sewage?");
-        pm.printProductReport(p2);
+        pm.createProduct(102, "Coffee", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
+        pm.reviewProduct(102, Rating.THREE_STAR, "average");
+        pm.reviewProduct(102, Rating.TWO_STAR, "rather weak coffee");
+        pm.reviewProduct(102, Rating.ONE_STAR, "abysmal");
+        pm.reviewProduct(102, Rating.FOUR_STAR, "good coffee");
+        pm.reviewProduct(102, Rating.FIVE_STAR, "perfect coffee");
+        pm.reviewProduct(102, Rating.ONE_STAR, "what is this, sewage?");
+        pm.printProductReport(102);
 
 
-        Product p3 = pm.createProduct(103, "Cake", BigDecimal.valueOf(3.99),  Rating.NOT_RATED, LocalDate.now().plusDays(2));
-        p3 = pm.reviewProduct(p3, Rating.THREE_STAR, "average");
-        p3 = pm.reviewProduct(p3, Rating.FIVE_STAR, "cake from heaven");
-        p3 = pm.reviewProduct(p3, Rating.FIVE_STAR, "if Carlsberg did Cakes");
-        p3 = pm.reviewProduct(p3, Rating.FOUR_STAR, "good cake");
-        p3 = pm.reviewProduct(p3, Rating.FIVE_STAR, "exquisite");
-        p3 = pm.reviewProduct(p3, Rating.ONE_STAR, "what is this, cardboard?");
-        pm.printProductReport(p3);
+        pm.createProduct(103, "Cake", BigDecimal.valueOf(3.99),  Rating.NOT_RATED, LocalDate.now().plusDays(2));
+        pm.reviewProduct(103, Rating.THREE_STAR, "average");
+        pm.reviewProduct(103, Rating.FIVE_STAR, "cake from heaven");
+        pm.reviewProduct(103, Rating.FIVE_STAR, "if Carlsberg did Cakes");
+        pm.reviewProduct(103, Rating.FOUR_STAR, "good cake");
+        pm.reviewProduct(103, Rating.FIVE_STAR, "exquisite");
+        pm.reviewProduct(103, Rating.ONE_STAR, "what is this, cardboard?");
+        pm.printProductReport(103);
 
         //Product p4 = pm.createProduct(105, "Cookie", BigDecimal.valueOf(3.99), Rating.TWO_STAR, LocalDate.now());
         //Product p5 = p3.applyRating(Rating.THREE_STAR);
