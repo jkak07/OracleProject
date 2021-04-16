@@ -74,7 +74,7 @@ public abstract class Product implements Rateable<Product> {
         //if (o == null || getClass() != o.getClass())
         if (o instanceof Product) {
             Product product = (Product) o;
-            return id == product.id && Objects.equals(name, product.name); //use objects class as it checks if parameter isn't null before comparison
+            return id == product.id; //&& Objects.equals(name, product.name); //use objects class as it checks if parameter isn't null before comparison
         }
         return false;
     }
