@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ProductManager {
 
@@ -53,13 +55,13 @@ public class ProductManager {
         products.remove(product, reviews);
         reviews.add(new Review(rating, comments));
 
-        int sum = 0;
-        for(Review review: reviews){
-            sum += review.getRating().ordinal();
-
-        }
-        product = product.applyRating(Rateable.convert(Math.round((float) sum / reviews.size())));
-
+        product = product.applyRating(
+                Rateable.convert(
+                        (int) Math.round(
+                                reviews.stream()
+                                        .mapToInt(r -> r.getRating().ordinal())
+                                        .average()
+                                        .orElse(0))));
         products.put(product,reviews);
         return product;
 
@@ -75,39 +77,44 @@ public class ProductManager {
         txt.append(formatter.formatProduct(product));
         txt.append('\n');
         Collections.sort(reviews);
-        for(Review review: reviews) {
-            txt.append(formatter.formatReviews(review));
+        if(reviews.isEmpty()){
+            txt.append(formatter.getText("no.reviews"));
             txt.append('\n');
-            }
-            if(reviews.isEmpty()){
-                txt.append(formatter.getText("no.reviews"));
-                txt.append('\n');
-            }
-            System.out.println(txt);
+        } else {
+            txt.append(reviews.stream()
+                    .map(r -> formatter.formatReviews(r) + '\n')
+                    .collect(Collectors.joining()));
+            //could use for each but then could not do parallel mode processing//
+        }
+
+        System.out.println(txt);
     }
 
-    public void printProducts(Comparator<Product> sorter){
-        List<Product> productList = new ArrayList<>(products.keySet());
-        productList.sort(sorter);
+    public void printProducts(Predicate<Product> filter,Comparator<Product> sorter){
+
         StringBuilder txt = new StringBuilder();
-        for (Product product : productList){
-            txt.append(formatter.formatProduct((product)));
-            txt.append('\n');
-        }
+        products.keySet()
+                .stream()
+                .sorted(sorter)
+                .filter(filter)
+                .forEach(p -> txt.append(formatter.formatProduct(p)+ '\n'));
+
         System.out.println(txt);
 
 
     }
 
     public Product findProduct(int id){
-        Product result = null;
-        for(Product prod: products.keySet()){
-            if(prod.getId() == id){
-                result = prod;
-                break;
-            }
-        }
-        return result;
+        //products.keySet().removeIf((x) -> x.getId() != id); could use this too?
+
+        return products.keySet()
+                .stream()
+                .filter((p) -> p.getId() == id )
+                .findFirst()
+                .orElseGet(() -> null);
+
+
+
     }
 
     public Product reviewProduct(int id, Rating rating, String comments){
@@ -125,6 +132,18 @@ public class ProductManager {
         printProductReport(product);
     }
 
+    /**Collect map that maps product rating to total discount of products with those ratings  **/
+    public Map<String, String> getDiscount(){
+        return products.keySet()
+                .stream()
+                .collect(
+                        Collectors.groupingBy(
+                                product -> product.getRating().getStars(),
+                                Collectors.collectingAndThen(
+                                        Collectors.summingDouble(product -> product.getDiscount().doubleValue()),
+                                        discount -> formatter.moneyFormat.format(discount))));
+    }
+
     private static class ResourceFormatter{
 
         private Locale locale;
@@ -133,34 +152,34 @@ public class ProductManager {
         private NumberFormat moneyFormat;
 
 
-
-        private ResourceFormatter(Locale locale){
+        private ResourceFormatter(Locale locale) {
             this.locale = locale;
-            this.resources = ResourceBundle.getBundle("resources",locale);
+            this.resources = ResourceBundle.getBundle("resources", locale);
             this.dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).localizedBy(locale);
             this.moneyFormat = NumberFormat.getCurrencyInstance(locale);
         }
 
-        private String formatProduct(Product product){
+        private String formatProduct(Product product) {
             return MessageFormat.format(resources.getString("product"),
                     product.getName(),
                     moneyFormat.format(product.getPrice()),
                     product.getRating().getStars(),
                     dateFormat.format(product.getBestBefore()));
         }
-        private String formatReviews(Review review){
+
+        private String formatReviews(Review review) {
             return MessageFormat.format(resources.getString("review"),
                     review.getRating().getStars(),
                     review.getComments());
         }
 
-        private String getText(String key){
+        private String getText(String key) {
             return resources.getString(key);
 
         }
 
 
-
-
     }
+
+
 }
