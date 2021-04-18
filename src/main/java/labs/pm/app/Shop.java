@@ -13,16 +13,17 @@ public class Shop {
     public static void main(String[] args){
         ProductManager pm = new ProductManager("en-GB");
 
-        pm.createProduct(101, "Tea",BigDecimal.valueOf(1.99), Rating.NOT_RATED);
+        pm.parseProduct("D,101,Tea,1.99,0,2019-09-19");
+        pm.printProductReport(101);
 
-        pm.reviewProduct(101, Rating.FOUR_STAR, "nice hot cup of tea");
 
-        pm.reviewProduct(101, Rating.TWO_STAR, "rather weak tea");
-        pm.reviewProduct(101, Rating.FOUR_STAR, "fine tea");
-        pm.reviewProduct(101, Rating.FOUR_STAR, "good tea");
-        pm.reviewProduct(101, Rating.FIVE_STAR, "perfect tea");
-        pm.reviewProduct(101, Rating.THREE_STAR, "add some lemon");
-        //pm.printProductReport(101);
+        //pm.parseReview("101,4, Nice hot cup of tea");
+        /* pm.parseReview("101,2, rather weak tea");
+        pm.parseReview("101,4, fine tea");
+        pm.parseReview("101,4, good tea");
+        pm.parseReview("101,5, perfect tea");
+        pm.parseReview("101,3, add some lemon");
+        pm.printProductReport(101);
 
         pm.changeLocale("en-US");
 
@@ -60,7 +61,7 @@ public class Shop {
         //pm.printProducts(ratingSorter.thenComparing(priceSorter).reversed());
         //pm.printProducts(p -> p.getPrice().floatValue() <2 ,priceSorter);
 
-        pm.getDiscount().forEach( (rating, discount) -> System.out.println(rating + "\t" + discount));
+        //pm.getDiscount().forEach( (rating, discount) -> System.out.println(rating + "\t" + discount)); */
 
 
 
