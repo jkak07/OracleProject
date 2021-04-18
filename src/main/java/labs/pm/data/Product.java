@@ -8,8 +8,8 @@ import static java.math.RoundingMode.HALF_UP;
 
 //abstract method inherited from rateable interface, class acts a conduit for implementation to child classes
 public abstract class Product implements Rateable<Product> {
-    /** Discount Rate  is 10% **/
-    public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.1);
+    /** Discount Rate  is 30% **/
+    public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.3);
     private int id;
     private String name;
     private BigDecimal price;
